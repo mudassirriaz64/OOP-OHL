@@ -18,9 +18,5 @@ ARTS115
 Art
 MUSC130
 Appreciation
-SSN210
-Intro
-To
-Software
-Engineering
+
 

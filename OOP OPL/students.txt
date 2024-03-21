@@ -1,5 +1,6 @@
 01-131232-046
 Mudassir Riaz
-2
-ENG220
-SSN210
+mudassir riaz_courses.txt
+01-131232-052
+Awais Ishaq
+Awais Ishaq_courses.txt
