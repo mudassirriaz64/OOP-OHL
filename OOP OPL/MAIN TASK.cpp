@@ -496,3 +496,36 @@ void loadAssignedCourses(Teacher & teacher, const string & assignedCoursesFile)
         cout << "Unable to open assigned courses file for " << teacher.name << endl;
     }
 }
+void saveAssignedCourses(const Teacher& teacher)
+{
+    ofstream assignedCoursesFile(teacher.teacherID + "_courses.txt"); // Save assigned courses to a separate file for each teacher
+    if (assignedCoursesFile.is_open()) {
+        for (auto& course : teacher.coursesTaught) {
+            assignedCoursesFile << course->courseCode << endl;
+        }
+        assignedCoursesFile.close();
+    }
+}
+
+void loadStudents(vector<Student>& students)
+{
+    ifstream file(STUDENTS_FILE);
+    if (file.is_open()) {
+        string studentID;
+        string studentName;
+        string enrolledCoursesFilename;
+
+        // Read three lines at a time for each student
+        while (getline(file, studentID) && getline(file, studentName) && getline(file, enrolledCoursesFilename)) {
+            Student student;
+            student.studentID = studentID;
+            student.name = studentName;
+            student.enrolledcourses = enrolledCoursesFilename;
+            loadEnrolledCourses(student);  // Load enrolled courses for this student
+            students.push_back(student);
+        }
+        file.close();
+    }
+}
+
+
