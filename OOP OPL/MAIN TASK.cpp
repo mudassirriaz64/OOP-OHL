@@ -387,18 +387,18 @@ case 3:
         }
         break;
         case 4:
-            // Remove Course
         {
             string courseCode;
             cout << "Enter Course Code to Remove: ";
             cin >> courseCode;
 
             // Find and remove the course
-            auto it = find_if(courses.begin(), courses.end(), [courseCode](const Course& c) {
+            auto it = find_if(courses.begin(), courses.end(), [courseCode](const Course& c){
                 return c.courseCode == courseCode;
                 });
 
-            if (it != courses.end()) {
+            if (it != courses.end())
+            {
                 courses.erase(it);
                 cout << "Course removed successfully." << endl;
             }
@@ -430,4 +430,42 @@ case 3:
         }
     }
     return 0;
+}
+
+void loadCourses(vector<Course>&courses)
+{
+    ifstream file(COURSES_FILE);
+    if (file.is_open())
+    {
+        while (!file.eof())
+        {
+            Course course;
+            file >> course.courseCode >> course.courseName;
+            courses.push_back(course);
+        }
+        file.close();
+    }
+}
+
+void loadTeachers(vector<Teacher>& teachers)
+{
+    ifstream file(TEACHERS_FILE);
+    if (file.is_open())
+    {
+        string teacherID;
+        while (getline(file, teacherID)) 
+        {
+            string name;
+            getline(file, name);
+            string assignedCoursesFile;
+            getline(file, assignedCoursesFile);
+
+            Teacher teacher;
+            teacher.teacherID = teacherID;
+            teacher.name = name;
+            loadAssignedCourses(teacher, assignedCoursesFile); 
+            teachers.push_back(teacher);
+        }
+        file.close();
+    }
 }
