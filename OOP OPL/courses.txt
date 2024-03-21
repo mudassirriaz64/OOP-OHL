@@ -1,0 +1,12 @@
+CSCI101 LA
+MATH201 Calculus
+PHYS202 Physics
+CHEM105 Chemistry
+ENG220 English
+HIST150 History
+PSYC110 Psychology
+BIOL210 Laboratory
+ARTS115 Art
+MUSC130 Appreciation
+ 
+SSN210 Intro To Software Engineering
