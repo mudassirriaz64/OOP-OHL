@@ -160,4 +160,40 @@ public:
 
 };
 
+void Course::addStudent(Student* student)
+{
+    studentsEnrolled.push_back(student);
+}
+
+void Course::removeStudent(Student* student)
+{
+    for (auto it = studentsEnrolled.begin(); it != studentsEnrolled.end(); ++it) {
+        if (*it == student) {
+            studentsEnrolled.erase(it);
+            break;
+        }
+    }
+}
+void Course::viewStudents()
+{
+    cout << "Students Enrolled in " << courseName << " (" << courseCode << "):" << endl;
+    for (const Student* student : studentsEnrolled)
+    {
+        cout << student->name << endl;
+    }
+}
+
+// Function prototypes
+void saveAssignedCourses(const Teacher& teacher);
+void loadAssignedCourses(Teacher& teacher, const string& assignedCoursesFile);
+void loadEnrolledCourses(Student& student);
+void saveEnrolledCourses(const Student& student);
+void loadCourses(vector<Course>& courses);
+void loadTeachers(vector<Teacher>& teachers);
+void loadStudents(vector<Student>& students);
+void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, const vector<Student>& students);
+
+const string COURSES_FILE = "courses.txt";
+const string TEACHERS_FILE = "teachers.txt";
+const string STUDENTS_FILE = "students.txt";// Maximum capacity for each course
    
