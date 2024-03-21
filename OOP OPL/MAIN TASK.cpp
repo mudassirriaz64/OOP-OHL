@@ -195,7 +195,7 @@ void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, co
 
 const string COURSES_FILE = "courses.txt";
 const string TEACHERS_FILE = "teachers.txt";
-const string STUDENTS_FILE = "students.txt";// Maximum capacity for each course
+const string STUDENTS_FILE = "students.txt";
 
 int main()
 {
@@ -515,7 +515,6 @@ void loadStudents(vector<Student>& students)
         string studentName;
         string enrolledCoursesFilename;
 
-        // Read three lines at a time for each student
         while (getline(file, studentID) && getline(file, studentName) && getline(file, enrolledCoursesFilename)) {
             Student student;
             student.studentID = studentID;
