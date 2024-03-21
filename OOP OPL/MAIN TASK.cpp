@@ -432,3 +432,40 @@ int main()
     }
     return 0;
 }
+// Function definitions
+
+void loadCourses(vector<Course>& courses)
+{
+    ifstream file(COURSES_FILE);
+    if (file.is_open())
+    {
+        while (!file.eof())
+        {
+            Course course;
+            file >> course.courseCode >> course.courseName;
+            courses.push_back(course);
+        }
+        file.close();
+    }
+}
+
+void loadTeachers(vector<Teacher>& teachers)
+{
+    ifstream file(TEACHERS_FILE);
+    if (file.is_open()) {
+        string teacherID;
+        while (getline(file, teacherID)) {
+            string name;
+            getline(file, name); // Read the name from the next line
+            string assignedCoursesFile;
+            getline(file, assignedCoursesFile); // Read the filename from the next line
+
+            Teacher teacher;
+            teacher.teacherID = teacherID;
+            teacher.name = name;
+            loadAssignedCourses(teacher, assignedCoursesFile); // Load assigned courses
+            teachers.push_back(teacher);
+        }
+        file.close();
+    }
+}
