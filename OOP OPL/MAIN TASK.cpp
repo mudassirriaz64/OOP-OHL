@@ -115,4 +115,49 @@ public:
         }
     }
 };
+class Student {
+public:
+    string studentID;
+    string name;
+    string email;
+    string enrolledcourses;
+    vector<Course*> coursesEnrolled;
+
+    void enrollCourse(Course* course) {
+        if (course->studentsEnrolled.size() < MAX_CAPACITY) {
+            coursesEnrolled.push_back(course);
+            course->addStudent(this);
+        }
+        else {
+            cout << "Course " << course->courseName << " is full. Cannot enroll." << endl;
+        }
+    }
+
+    void dropCourse(Course* course) {
+        for (auto it = coursesEnrolled.begin(); it != coursesEnrolled.end(); ++it) {
+            if (*it == course) {
+                coursesEnrolled.erase(it);
+                course->removeStudent(this);
+                break;
+            }
+        }
+    }
+
+    void viewCourses()
+    {
+        cout << "Courses Enrolled by " << name << " (" << studentID << "):" << endl;
+        if (coursesEnrolled.empty())
+        {
+            cout << "No courses enrolled." << endl;
+        }
+        else {
+            for (auto course : coursesEnrolled) {
+                cout << course->courseName << endl;
+            }
+        }
+        system("pause");
+    }
+
+};
+
    
