@@ -528,4 +528,85 @@ void loadStudents(vector<Student>& students)
     }
 }
 
+void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, const vector<Student>& students)
+{
+    ofstream coursesFile(COURSES_FILE);
+    if (coursesFile.is_open()) {
+        for (auto& course : courses) {
+            coursesFile << course.courseCode << endl;
+            coursesFile << course.courseName << endl;
+        }
+        coursesFile.close();
+    }
 
+    ofstream teachersFile(TEACHERS_FILE);
+    if (teachersFile.is_open()) {
+        for (auto& teacher : teachers) {
+            teachersFile << teacher.teacherID << endl;
+            teachersFile << teacher.name << endl;
+            teachersFile << teacher.teacherID + "_courses.txt" << endl; // Save assigned courses filename
+            saveAssignedCourses(teacher); // Save assigned courses
+        }
+        teachersFile.close();
+    }
+
+    ofstream studentsFile(STUDENTS_FILE);
+    if (studentsFile.is_open()) {
+        for (auto& student : students)
+        {
+            studentsFile << student.studentID << endl;
+            studentsFile << student.name << endl;
+            studentsFile << student.enrolledcourses << endl;
+            saveEnrolledCourses(student);
+        }
+        studentsFile.close();
+    }
+}
+
+void saveEnrolledCourses(const Student& student)
+{
+    ofstream enrolledCoursesFile(student.enrolledcourses);
+    if (enrolledCoursesFile.is_open()) {
+        for (auto& course : student.coursesEnrolled)
+        {
+            enrolledCoursesFile << course->courseCode << " " << course->courseName << endl;
+        }
+        enrolledCoursesFile.close();
+        cout << "Enrolled courses saved to file." << endl;
+        system("pause");
+    }
+    else
+    {
+        cout << "Unable to save enrolled courses to file." << endl;
+        system("pause");
+    }
+}
+
+void loadEnrolledCourses(Student& student)
+{
+    ifstream enrolledCoursesFile(student.enrolledcourses);
+    if (enrolledCoursesFile.is_open()) {
+        string courseCode;
+        string courseName;
+        while (enrolledCoursesFile >> courseCode >> courseName) {
+            Course* course = nullptr;
+            // Find the corresponding course in the global courses vector
+            for (auto& globalCourse : courses) {
+                if (globalCourse.courseCode == courseCode) {
+                    course = &globalCourse;
+                    break;
+                }
+            }
+            if (course != nullptr) {
+                student.enrollCourse(course);
+            }
+            else {
+                cout << "Course not found: " << courseCode << endl;
+            }
+        }
+        enrolledCoursesFile.close();
+    }
+    else {
+        cout << "Unable to open enrolled courses file for " << student.name << endl;
+    }
+}
