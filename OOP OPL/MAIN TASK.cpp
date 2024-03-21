@@ -371,7 +371,6 @@ int main()
             break;
         }
         case 3:
-            // Add Course
         {
             Course newCourse;
             cout << "Enter Course Code: ";
