@@ -469,3 +469,30 @@ void loadTeachers(vector<Teacher>& teachers)
         file.close();
     }
 }
+void loadAssignedCourses(Teacher & teacher, const string & assignedCoursesFile)
+{
+    ifstream file(assignedCoursesFile);
+    if (file.is_open()) {
+        string courseCode;
+        while (getline(file, courseCode)) {
+            Course* course = nullptr;
+            // Find the corresponding course in the global courses vector
+            for (auto& globalCourse : courses) {
+                if (globalCourse.courseCode == courseCode) {
+                    course = &globalCourse;
+                    break;
+                }
+            }
+            if (course != nullptr) {
+                teacher.assignCourse(course);
+            }
+            else {
+                cout << "Course not found: " << courseCode << endl;
+            }
+        }
+        file.close();
+    }
+    else {
+        cout << "Unable to open assigned courses file for " << teacher.name << endl;
+    }
+}
