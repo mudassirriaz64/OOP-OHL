@@ -196,4 +196,129 @@ void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, co
 const string COURSES_FILE = "courses.txt";
 const string TEACHERS_FILE = "teachers.txt";
 const string STUDENTS_FILE = "students.txt";// Maximum capacity for each course
+
+int main()
+{
+    for (auto& student : students)
+    {
+        loadEnrolledCourses(student);
+    }
+    loadCourses(courses);
+    loadTeachers(teachers);
+    loadStudents(students);
+
+
+    int userType;
+
+    // Main Menu Loop
+    while (true)
+    {
+        system("cls");
+        cout << "\nWelcome to the Course Management System!" << endl;
+        cout << "1. Student Login" << endl;
+        cout << "2. Teacher Login" << endl;
+        cout << "3. Add Course" << endl;
+        cout << "4. Remove Course" << endl;
+        cout << "5. View Courses" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> userType;
+        switch (userType)
+        {
+        case 1:
+        {
+            system("cls");
+            string studentID;
+            cout << "Enter your student ID: ";
+            cin >> studentID;
+            for (auto& student : students)
+            {
+                if (student.studentID == studentID)
+                {
+                    int studentChoice;
+                    while (true)
+                    {
+                        system("cls");
+                        cout << "Welcome " << student.name << "!" << endl;
+                        cout << "1. Enroll in a course" << endl;
+                        cout << "2. Drop a course" << endl;
+                        cout << "3. View all courses" << endl;
+                        cout << "4. View all enrolled courses" << endl;
+                        cout << "5. Logout" << endl;
+                        cout << "Enter your choice: ";
+                        cin >> studentChoice;
+                        switch (studentChoice)
+                        {
+                        case 1:
+                        {
+                            system("cls");
+                            cout << "Available Courses:" << endl;
+                            for (auto& course : courses)
+                            {
+                                cout << course.courseCode << " - " << course.courseName << endl;
+                            }
+                            string courseCode;
+                            cout << "Enter the course code: ";
+                            cin >> courseCode;
+                            for (auto& course : courses)
+                            {
+                                if (course.courseCode == courseCode)
+                                {
+                                    student.enrollCourse(&course);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        case 2:
+                        {
+                            cout << "Enrolled Courses:" << endl;
+                            for (auto& course : student.coursesEnrolled)
+                            {
+                                cout << course->courseCode << " - " << course->courseName << endl;
+                            }
+                            string courseCode;
+                            cout << "Enter the course code: ";
+                            cin >> courseCode;
+                            for (auto& course : student.coursesEnrolled)
+                            {
+                                if (course->courseCode == courseCode)
+                                {
+                                    student.dropCourse(course);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        case 3:
+                        {
+                            system("cls");
+                            cout << "Available Courses:" << endl;
+                            for (auto& course : courses)
+                            {
+                                cout << course.courseCode << " - " << course.courseName << endl;
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case 4:
+                        {
+                            student.viewCourses();
+                            break;
+                        }
+                        case 5:
+                        {
+                            saveEnrolledCourses(student);
+                            return 0;
+                        }
+                        default:
+                        {
+                            cout << "Invalid choice. Please try again." << endl;
+                            break;
+                        }
+                        }
+                    }
+                }
+            }
+        }
    
