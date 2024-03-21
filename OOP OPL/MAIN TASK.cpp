@@ -432,159 +432,8 @@ int main()
     }
     return 0;
 }
-// Function definitions
 
-void loadCourses(vector<Course>& courses)
-{
-    ifstream file(COURSES_FILE);
-    if (file.is_open())
-    {
-        while (!file.eof())
-        {
-            Course course;
-            file >> course.courseCode >> course.courseName;
-            courses.push_back(course);
-        }
-        file.close();
-    }
-}
-
-void loadTeachers(vector<Teacher>& teachers)
-{
-    ifstream file(TEACHERS_FILE);
-    if (file.is_open()) {
-        string teacherID;
-        while (getline(file, teacherID)) {
-            string name;
-            getline(file, name); // Read the name from the next line
-            string assignedCoursesFile;
-            getline(file, assignedCoursesFile); // Read the filename from the next line
-
-            Teacher teacher;
-            teacher.teacherID = teacherID;
-            teacher.name = name;
-            loadAssignedCourses(teacher, assignedCoursesFile); // Load assigned courses
-            teachers.push_back(teacher);
-        }
-        file.close();
-    }
-}
-        case 2:
-        {
-            system("cls");
-            string teacherID;
-            cout << "Enter your teacher ID: ";
-            cin >> teacherID;
-            for (auto& teacher : teachers)
-            {
-                if (teacher.teacherID == teacherID)
-                {
-                    int teacherChoice;
-                    while (true)
-                    {
-                        system("cls");
-                        cout << "Welcome " << teacher.name << "!" << endl;
-                        cout << "1. View courses taught" << endl;
-                        cout << "2. Assign course to yourself" << endl;
-                        cout << "3. Remove course from your teaching" << endl;
-                        cout << "4. Logout" << endl;
-                        cout << "Enter your choice: ";
-                        cin >> teacherChoice;
-                        switch (teacherChoice)
-                        {
-                        case 1:
-                            system("cls");
-                            teacher.viewCourses();
-                            break;
-                        case 2:
-                            system("cls");
-                            teacher.assignCourseToTeacher();
-                            break;
-                        case 3:
-                            system("cls");
-                            teacher.removeCourseFromTeacher();
-                            break;
-                        case 4:
-                            // Save data and exit
-                            saveData(courses, teachers, students);
-                            return 0;
-                        default:
-                            cout << "Invalid choice. Please try again." << endl;
-                            break;
-                        }
-                    }
-                }
-            }
-            cout << "Invalid teacher ID. Please try again." << endl;
-            break;
-        }
-        case 3:
-            // Add Course
-        {
-            Course newCourse;
-            cout << "Enter Course Code: ";
-            cin >> newCourse.courseCode;
-            cout << "Enter Course Name: ";
-            cin.ignore();
-            getline(cin, newCourse.courseName);
-
-            // Add the new course to the courses vector
-            courses.push_back(newCourse);
-
-            cout << "Course added successfully." << endl;
-            system("pause");
-        }
-        break;
-        case 4:
-            // Remove Course
-        {
-            string courseCode;
-            cout << "Enter Course Code to Remove: ";
-            cin >> courseCode;
-
-            // Find and remove the course
-            auto it = find_if(courses.begin(), courses.end(), [courseCode](const Course& c) {
-                return c.courseCode == courseCode;
-                });
-
-            if (it != courses.end()) {
-                courses.erase(it);
-                cout << "Course removed successfully." << endl;
-            }
-            else {
-                cout << "Course not found." << endl;
-            }
-            system("pause");
-        }
-        break;
-        case 5:
-            // View Courses
-        {
-            system("cls");
-            cout << "List of Courses:" << endl;
-            for (const auto& course : courses) {
-                cout << "Course Code: " << course.courseCode << ", Course Name: " << course.courseName << endl;
-            }
-            system("pause");
-        }
-        break;
-        case 6:
-            // Save data and exit
-            saveData(courses, teachers, students);
-            return 0;
-        default:
-            cout << "Invalid choice. Please try again." << endl;
-            system("pause");
-            break;
-        }
-    }
-    return 0;
-}
-
-
-// Function definitions
-
-void loadCourses(vector<Course>& courses)
+    void loadCourses(vector<Course>&courses)
 {
     ifstream file(COURSES_FILE);
     if (file.is_open())
@@ -620,8 +469,7 @@ void loadTeachers(vector<Teacher>& teachers)
     }
 }
 
-
-void loadAssignedCourses(Teacher& teacher, const string& assignedCoursesFile)
+    void loadAssignedCourses(Teacher & teacher, const string & assignedCoursesFile)
 {
     ifstream file(assignedCoursesFile);
     if (file.is_open()) {
@@ -699,7 +547,7 @@ void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, co
     if (teachersFile.is_open()) {
         for (auto& teacher : teachers) {
             teachersFile << teacher.teacherID << endl;
-            teachersFile << teacher.name << endl; 
+            teachersFile << teacher.name << endl;
             teachersFile << teacher.teacherID + "_courses.txt" << endl; // Save assigned courses filename
             saveAssignedCourses(teacher); // Save assigned courses
         }
@@ -708,10 +556,10 @@ void saveData(const vector<Course>& courses, const vector<Teacher>& teachers, co
 
     ofstream studentsFile(STUDENTS_FILE);
     if (studentsFile.is_open()) {
-        for (auto& student : students) 
+        for (auto& student : students)
         {
             studentsFile << student.studentID << endl;
-            studentsFile << student.name << endl; 
+            studentsFile << student.name << endl;
             studentsFile << student.enrolledcourses << endl;
             saveEnrolledCourses(student);
         }
